@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "bedrock-query-api",
+		"name": "Bedrock Query API",
+		"description": "Collection for testing Bedrock-powered HR data queries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "bedrock_url",
+			"value": "https://k86bczfnj3.execute-api.us-east-1.amazonaws.com/Prod",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Ask - How many employees?",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"How many employees do we have?\"\n}"
+				},
+				"url": {
+					"raw": "{{bedrock_url}}/ask",
+					"host": [
+						"{{bedrock_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				}
+			}
+		},
+		{
+			"name": "Ask - Which departments exist?",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"What departments do we have?\"\n}"
+				},
+				"url": {
+					"raw": "{{bedrock_url}}/ask",
+					"host": [
+						"{{bedrock_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				}
+			}
+		},
+		{
+			"name": "Ask - Generate SQL query",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"Generate SQL to show employees hired in the last 30 days\"\n}"
+				},
+				"url": {
+					"raw": "{{bedrock_url}}/ask",
+					"host": [
+						"{{bedrock_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				}
+			}
+		},
+		{
+			"name": "Execute SQL - Count employees",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sql\": \"SELECT COUNT(*) as total_employees FROM hr_data.hired_employees\"\n}"
+				},
+				"url": {
+					"raw": "{{bedrock_url}}/sql",
+					"host": [
+						"{{bedrock_url}}"
+					],
+					"path": [
+						"sql"
+					]
+				}
+			}
+		},
+		{
+			"name": "Execute SQL - Employees by department",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sql\": \"SELECT d.department, COUNT(e.id) as employee_count FROM hr_data.departments d LEFT JOIN hr_data.hired_employees e ON d.id = e.department_id GROUP BY d.department\"\n}"
+				},
+				"url": {
+					"raw": "{{bedrock_url}}/sql",
+					"host": [
+						"{{bedrock_url}}"
+					],
+					"path": [
+						"sql"
+					]
+				}
+			}
+		},
+		{
+			"name": "Ask - Non-HR question (should decline)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"What's the weather like today?\"\n}"
+				},
+				"url": {
+					"raw": "{{bedrock_url}}/ask",
+					"host": [
+						"{{bedrock_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				}
+			}
+		}
+	]
+}

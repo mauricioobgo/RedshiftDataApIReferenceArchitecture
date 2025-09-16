@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Cognito User Pool for HR Data App'
+
+Resources:
+  HRUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: hr-data-users
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireUppercase: true
+          RequireLowercase: true
+          RequireNumbers: true
+      AutoVerifiedAttributes:
+        - email
+      UsernameAttributes:
+        - email
+
+  HRUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref HRUserPool
+      ClientName: hr-data-app
+      ExplicitAuthFlows:
+        - USER_PASSWORD_AUTH
+      GenerateSecret: false
+
+Outputs:
+  UserPoolId:
+    Description: Cognito User Pool ID
+    Value: !Ref HRUserPool
+  
+  ClientId:
+    Description: Cognito User Pool Client ID
+    Value: !Ref HRUserPoolClient

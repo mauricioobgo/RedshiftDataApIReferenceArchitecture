@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "redshift-data-api",
+		"name": "Redshift Data API",
+		"description": "Collection for testing Redshift Data API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://euvoczmkf2.execute-api.us-east-1.amazonaws.com/Prod",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Insert Departments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\"id\": 1, \"department\": \"Engineering\"},\n    {\"id\": 2, \"department\": \"Sales\"},\n    {\"id\": 3, \"department\": \"Marketing\"}\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/data/departments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"departments"
+					]
+				}
+			}
+		},
+		{
+			"name": "Insert Jobs",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\"id\": 1, \"job\": \"Software Engineer\"},\n    {\"id\": 2, \"job\": \"Sales Manager\"},\n    {\"id\": 3, \"job\": \"Marketing Specialist\"}\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/data/jobs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"jobs"
+					]
+				}
+			}
+		},
+		{
+			"name": "Insert Hired Employees",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"John Doe\",\n      \"department_id\": 1,\n      \"job_id\": 1\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Jane Smith\",\n      \"department_id\": 2,\n      \"job_id\": 2\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/data/hired_employees",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"hired_employees"
+					]
+				}
+			}
+		},
+		{
+			"name": "Backup Departments",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/backup/departments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"backup",
+						"departments"
+					]
+				}
+			}
+		},
+		{
+			"name": "Backup Jobs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/backup/jobs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"backup",
+						"jobs"
+					]
+				}
+			}
+		},
+		{
+			"name": "Backup Hired Employees",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/backup/hired_employees",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"backup",
+						"hired_employees"
+					]
+				}
+			}
+		},
+		{
+			"name": "Restore Departments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"backup_key\": \"backups/departments/2023-12-01T10:00:00.000000.avro\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/restore/departments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"restore",
+						"departments"
+					]
+				}
+			}
+		},
+		{
+			"name": "Test Validation Error - Missing ID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\"department\": \"Missing ID Department\"}\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/data/departments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"departments"
+					]
+				}
+			}
+		},
+		{
+			"name": "Test Validation Error - Too Many Rows",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": []\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/data/departments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"departments"
+					]
+				}
+			}
+		},
+		{
+			"name": "Test Invalid Table Name",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\"id\": 1, \"name\": \"test\"}\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/data/invalid_table",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"invalid_table"
+					]
+				}
+			}
+		}
+	]
+}
